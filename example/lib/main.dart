@@ -47,7 +47,6 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final mapPickerController = MapPickerController();
-  final textController = TextEditingController();
   final aMapWebService = AMapWebService(
     apiKey: "0e2f6cd577c7b01f2f10e8a8a4cdf153",
     secretKey: "36b5528aecd3e4aba379e1ef352820fd",
@@ -55,17 +54,14 @@ class _MyHomePageState extends State<MyHomePage> {
   late AMapController aMapController;
 
   CameraPosition cameraPosition = CameraPosition(
-    position: Position(latitude: 34.24001, longitude: 108.912078),
+    position: const LatLng(34.24001, 108.912078),
     zoom: 14,
   );
 
   void refreshNearBy() async {
-    Position? position = cameraPosition.position;
+    LatLng? position = cameraPosition.position;
     if (position != null) {
-      final response = await aMapWebService.searchAround(LatLng(
-        position.latitude,
-        position.longitude,
-      ));
+      final response = await aMapWebService.searchAround(position);
       if (response.pois != null) {
         List<Place> places = [];
         for (var poi in response.pois!) {
@@ -109,16 +105,14 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void onSelectPoi(Place place) {
-    final position = Position(
-      latitude: place.location.latitude,
-      longitude: place.location.longitude,
-    );
-    aMapController.moveCamera(CameraPosition(
+    final position = place.location;
+    cameraPosition = CameraPosition(
       position: position,
       heading: cameraPosition.heading,
       skew: cameraPosition.skew,
       zoom: cameraPosition.zoom,
-    ));
+    );
+    aMapController.moveCamera(cameraPosition);
   }
 
   @override
@@ -149,15 +143,16 @@ class _MyHomePageState extends State<MyHomePage> {
               geolocationControlEnabled: false,
               showUserLocation: false,
               onMapCreated: (controller) => aMapController = controller,
-              onCameraChangeStart: (_) {
+              onMapCompleted: refreshNearBy,
+              onMapMoveStart: (_) {
                 mapPickerController.mapStartMoving!();
               },
-              onCameraChange: (cameraPosition) {
-                this.cameraPosition = cameraPosition;
-                textController.text = "${cameraPosition.position?.latitude}, "
-                    "${cameraPosition.position?.longitude}";
+              onMapMove: (latLng) {
+                setState(() {
+                  cameraPosition = cameraPosition.copyWith(position: latLng);
+                });
               },
-              onCameraChangeFinish: (_) {
+              onMapMoveEnd: (_) {
                 mapPickerController.mapFinishMoving!();
                 refreshNearBy();
               },
@@ -165,22 +160,17 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           Positioned(
             top: MediaQuery.of(context).viewPadding.top + 20,
-            width: 220,
-            height: 50,
             child: Container(
+              alignment: Alignment.center,
+              padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
                 color: Colors.grey[300]!.withOpacity(0.8),
                 borderRadius: const BorderRadius.all(Radius.circular(10)),
               ),
-              child: TextFormField(
-                maxLines: 2,
-                textAlign: TextAlign.center,
-                readOnly: true,
-                decoration: const InputDecoration(
-                  contentPadding: EdgeInsets.zero,
-                  border: InputBorder.none,
-                ),
-                controller: textController,
+              child: Text(
+                "${cameraPosition.position?.latitude}, "
+                "${cameraPosition.position?.longitude}",
+                style: const TextStyle(fontSize: 16),
               ),
             ),
           ),

@@ -6,13 +6,10 @@ PODS:
     - Flutter
   - AMapFoundation (1.8.2)
   - Flutter (1.0.0)
-  - geocoding_ios (1.0.5):
-    - Flutter
 
 DEPENDENCIES:
   - amap_flutter (from `.symlinks/plugins/amap_flutter/ios`)
   - Flutter (from `Flutter`)
-  - geocoding_ios (from `.symlinks/plugins/geocoding_ios/ios`)
 
 SPEC REPOS:
   trunk:
@@ -24,15 +21,12 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/amap_flutter/ios"
   Flutter:
     :path: Flutter
-  geocoding_ios:
-    :path: ".symlinks/plugins/geocoding_ios/ios"
 
 SPEC CHECKSUMS:
   AMap3DMap: dce25dd3e51e6b92109caa7d0c97fc6055830fb3
   amap_flutter: 002ff8f5eb991f9e4f1f8b4c3f2261669d58040c
   AMapFoundation: 9885c48fc3a78fdfb84a0299a2293e56ea3c9fec
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
-  geocoding_ios: d7460f56e80e118d57678efe5c2cdc888739ff18
 
 PODFILE CHECKSUM: 819463e6a0290f5a72f145ba7cde16e8b6ef0796
 
