@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../map_picker_flutter.dart';
 
+/// [PlaceList] widget is a [ListView] widget that contains places list.
 class PlaceList extends StatelessWidget {
   const PlaceList({
     super.key,
@@ -10,8 +11,13 @@ class PlaceList extends StatelessWidget {
     required this.onSelectPlace,
   });
 
+  /// List of places to show.
   final List<Place>? places;
+
+  /// Selected place that show checked icon on tailing.
   final Place? selectedPlace;
+
+  /// A callback function when select a place.
   final ValueChanged<Place> onSelectPlace;
 
   @override

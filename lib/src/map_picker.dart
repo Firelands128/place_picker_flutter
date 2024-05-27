@@ -1,28 +1,9 @@
 part of '../map_picker_flutter.dart';
 
-/// MapPicker widget is main widget that gets map as a child.
+/// MapPicker widget is main widget that receives any map as a child.
 /// It does not restrict user from using maps other than google map.
-/// [MapPicker] is controlled with [MapPickerController] class object
+/// [MapPicker] is controlled with [MapPickerController].
 class MapPicker extends StatefulWidget {
-  /// Map widget, Google, Yandex Map or any other map can be used, see example
-  final Widget map;
-
-  /// [MapPicker] can be controller with [MapPickerController] object.
-  /// you can call mapPickerController.mapMoving!() and
-  /// mapPickerController.mapFinishedMoving!() for controlling the Map Pin.
-  final MapPickerController mapPickerController;
-
-  final ValueChanged<Place> onSelectPlace;
-
-  final Future<List<Place>?> Function(String value) onSearch;
-
-  /// Map pin widget in the center of the screen. [iconWidget] is used with
-  /// animation controller
-  final Widget? iconWidget;
-
-  /// default value is true, defines, if there is a dot, at the bottom of the pin
-  final bool showDot;
-
   const MapPicker({
     super.key,
     required this.map,
@@ -32,6 +13,27 @@ class MapPicker extends StatefulWidget {
     this.iconWidget,
     this.showDot = true,
   });
+
+  /// Custom map widget
+  final Widget map;
+
+  /// [MapPicker] can be controller with [MapPickerController] object.
+  /// you can call mapPickerController.mapStartMoving!() and
+  /// mapPickerController.mapFinishMoving!() for controlling the Map Pin.
+  final MapPickerController mapPickerController;
+
+  /// A callback function that inform parent widget which place is selected.
+  final ValueChanged<Place> onSelectPlace;
+
+  /// A callback function that inform parent widget to search places by keywords.
+  final Future<List<Place>?> Function(String value) onSearch;
+
+  /// Map pin widget in the center of the screen.
+  /// [iconWidget] is used with animation controller.
+  final Widget? iconWidget;
+
+  /// Default value is true, defines, if there is a dot, at the bottom of the pin
+  final bool showDot;
 
   @override
   State<MapPicker> createState() => _MapPickerState();
@@ -76,11 +78,12 @@ class _MapPickerState extends State<MapPicker>
     }
   }
 
-  /// down the Pin whenever the map is released and goes to idle position
+  /// Down the Pin whenever the map is released and goes to idle position
   void mapFinishMoving() {
     animationController.reverse();
   }
 
+  /// Refresh provided places.
   void refreshPlaces(List<Place> places) {
     setState(() {
       this.places = places;
@@ -88,11 +91,13 @@ class _MapPickerState extends State<MapPicker>
     });
   }
 
+  /// A callback function when search places by keywords.
   void onSearch(String value) async {
     final List<Place>? placeList = await widget.onSearch(value);
     setState(() => places = placeList);
   }
 
+  /// A callback function when select a place.
   void onSelectPlace(Place place) {
     setState(() => selectedPlace = place);
     widget.onSelectPlace(place);
