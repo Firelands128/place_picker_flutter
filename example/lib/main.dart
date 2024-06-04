@@ -1,5 +1,6 @@
 import 'package:amap_flutter/amap_flutter.dart';
 import 'package:amap_webservice/amap_webservice.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:latlong2/latlong.dart';
@@ -115,6 +116,30 @@ class _MyHomePageState extends State<MyHomePage> {
     aMapController.moveCamera(cameraPosition);
   }
 
+  void onCameraChange(CameraPosition position) {
+    mapPickerController.mapStartMoving!();
+    setState(() {
+      cameraPosition = position;
+    });
+  }
+
+  void onCameraChangeFinish(CameraPosition _) {
+    mapPickerController.mapFinishMoving!();
+    refreshNearBy();
+  }
+
+  void onMapMove(LatLng latLng) {
+    mapPickerController.mapStartMoving!();
+    setState(() {
+      cameraPosition = cameraPosition.copyWith(position: latLng);
+    });
+  }
+
+  void onMapMoveEnd(LatLng latLng) {
+    mapPickerController.mapFinishMoving!();
+    refreshNearBy();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -144,18 +169,10 @@ class _MyHomePageState extends State<MyHomePage> {
               showUserLocation: false,
               onMapCreated: (controller) => aMapController = controller,
               onMapCompleted: refreshNearBy,
-              onMapMoveStart: (_) {
-                mapPickerController.mapStartMoving!();
-              },
-              onMapMove: (latLng) {
-                setState(() {
-                  cameraPosition = cameraPosition.copyWith(position: latLng);
-                });
-              },
-              onMapMoveEnd: (_) {
-                mapPickerController.mapFinishMoving!();
-                refreshNearBy();
-              },
+              onCameraChange: kIsWeb ? null : onCameraChange,
+              onCameraChangeFinish: kIsWeb ? null : onCameraChangeFinish,
+              onMapMove: kIsWeb ? onMapMove : null,
+              onMapMoveEnd: kIsWeb ? onMapMoveEnd : null,
             ),
           ),
           Positioned(
