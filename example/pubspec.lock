@@ -208,13 +208,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.0"
-  map_picker_flutter:
-    dependency: "direct main"
-    description:
-      path: ".."
-      relative: true
-    source: path
-    version: "0.0.1"
   matcher:
     dependency: transitive
     description:
@@ -263,6 +256,13 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.0.2"
+  place_picker_flutter:
+    dependency: "direct main"
+    description:
+      path: ".."
+      relative: true
+    source: path
+    version: "0.0.1"
   plugin_platform_interface:
     dependency: transitive
     description:

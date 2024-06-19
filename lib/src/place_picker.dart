@@ -1,13 +1,13 @@
-part of '../map_picker_flutter.dart';
+part of '../place_picker_flutter.dart';
 
-/// MapPicker widget is main widget that receives any map as a child.
+/// PlacePicker widget is main widget that receives any map as a child.
 /// It does not restrict user from using maps other than google map.
-/// [MapPicker] is controlled with [MapPickerController].
-class MapPicker extends StatefulWidget {
-  const MapPicker({
+/// [PlacePicker] is controlled with [PlacePickerController].
+class PlacePicker extends StatefulWidget {
+  const PlacePicker({
     super.key,
     required this.map,
-    required this.mapPickerController,
+    required this.placePickerController,
     required this.onSelectPlace,
     required this.onSearch,
     this.iconWidget,
@@ -17,10 +17,10 @@ class MapPicker extends StatefulWidget {
   /// Custom map widget
   final Widget map;
 
-  /// [MapPicker] can be controller with [MapPickerController] object.
-  /// you can call mapPickerController.mapStartMoving!() and
-  /// mapPickerController.mapFinishMoving!() for controlling the Map Pin.
-  final MapPickerController mapPickerController;
+  /// [PlacePicker] can be controller with [PlacePickerController] object.
+  /// you can call placePickerController.mapStartMoving!() and
+  /// placePickerController.mapFinishMoving!() for controlling the Map Pin.
+  final PlacePickerController placePickerController;
 
   /// A callback function that inform parent widget which place is selected.
   final ValueChanged<Place> onSelectPlace;
@@ -28,7 +28,7 @@ class MapPicker extends StatefulWidget {
   /// A callback function that inform parent widget to search places by keywords.
   final Future<List<Place>?> Function(String value) onSearch;
 
-  /// Map pin widget in the center of the screen.
+  /// Place pin widget in the center of the screen.
   /// [iconWidget] is used with animation controller.
   final Widget? iconWidget;
 
@@ -36,10 +36,10 @@ class MapPicker extends StatefulWidget {
   final bool showDot;
 
   @override
-  State<MapPicker> createState() => _MapPickerState();
+  State<PlacePicker> createState() => _PlacePickerState();
 }
 
-class _MapPickerState extends State<MapPicker>
+class _PlacePickerState extends State<PlacePicker>
     with SingleTickerProviderStateMixin {
   static const double _dotRadius = 2.2;
 
@@ -57,9 +57,9 @@ class _MapPickerState extends State<MapPicker>
       duration: const Duration(milliseconds: 300),
     );
 
-    widget.mapPickerController.mapStartMoving = mapStartMoving;
-    widget.mapPickerController.mapFinishMoving = mapFinishMoving;
-    widget.mapPickerController.refreshPlaces = refreshPlaces;
+    widget.placePickerController.mapStartMoving = mapStartMoving;
+    widget.placePickerController.mapFinishMoving = mapFinishMoving;
+    widget.placePickerController.refreshPlaces = refreshPlaces;
 
     translateAnimation = Tween(
       begin: 0.0,

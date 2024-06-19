@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../map_picker_flutter.dart';
+import '../place_picker_flutter.dart';
 
 /// [PlaceList] widget is a [ListView] widget that contains places list.
 class PlaceList extends StatelessWidget {

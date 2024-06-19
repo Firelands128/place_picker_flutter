@@ -4,7 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:map_picker_flutter/map_picker_flutter.dart';
+import 'package:place_picker_flutter/place_picker_flutter.dart';
 
 void main() {
   runApp(const MyApp());
@@ -47,7 +47,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final mapPickerController = MapPickerController();
+  final placePickerController = PlacePickerController();
   final aMapWebService = AMapWebService(
     apiKey: "0e2f6cd577c7b01f2f10e8a8a4cdf153",
     secretKey: "36b5528aecd3e4aba379e1ef352820fd",
@@ -78,7 +78,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ));
           }
         }
-        mapPickerController.refreshPlaces?.call(places);
+        placePickerController.refreshPlaces?.call(places);
       }
     }
   }
@@ -117,26 +117,26 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void onCameraChange(CameraPosition position) {
-    mapPickerController.mapStartMoving!();
+    placePickerController.mapStartMoving!();
     setState(() {
       cameraPosition = position;
     });
   }
 
   void onCameraChangeFinish(CameraPosition _) {
-    mapPickerController.mapFinishMoving!();
+    placePickerController.mapFinishMoving!();
     refreshNearBy();
   }
 
   void onMapMove(LatLng latLng) {
-    mapPickerController.mapStartMoving!();
+    placePickerController.mapStartMoving!();
     setState(() {
       cameraPosition = cameraPosition.copyWith(position: latLng);
     });
   }
 
   void onMapMoveEnd(LatLng latLng) {
-    mapPickerController.mapFinishMoving!();
+    placePickerController.mapFinishMoving!();
     refreshNearBy();
   }
 
@@ -146,8 +146,8 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Stack(
         alignment: Alignment.topCenter,
         children: [
-          MapPicker(
-            mapPickerController: mapPickerController,
+          PlacePicker(
+            placePickerController: placePickerController,
             iconWidget: SvgPicture.asset(
               "assets/location.svg",
               height: 60,

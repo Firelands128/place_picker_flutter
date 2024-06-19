@@ -1,4 +1,4 @@
-part of '../map_picker_flutter.dart';
+part of '../place_picker_flutter.dart';
 
 /// [Place] data class
 class Place {
