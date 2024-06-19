@@ -1,39 +1,43 @@
-<!--
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
+# Place Picker for Flutter
 
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/guides/libraries/writing-package-pages).
+[![pub package](https://img.shields.io/pub/v/place_picker_flutter.svg)](https://pub.dev/packages/place_picker_flutter)
 
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-library-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/developing-packages).
--->
-
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
+A Flutter package that provide place picker functionality on custom map.
 
 ## Features
+This package provide the following features:
+* Indicate the selected place by a animated pin.
+* Picking place can be done by dragging map.
+* Picking place can be done by selecting a POI.
+* The ability of searching POIs by keyword.
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
-
-## Getting started
-
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
-
-## Usage
-
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder.
-
-```dart
-const like = 'sample';
+## Installation
+In the ```dependencies:``` section of your ```pubspec.yaml```, add the following line:
+``` yaml
+place_picker_flutter: <latest_version>
 ```
 
-## Additional information
+## Usage
+```dart
+@override
+Widget build(BuildContext context) {
+  return Scaffold(
+    body: PlacePicker(
+      placePickerController: placePickerController,
+      iconWidget: SvgPicture.asset(
+        "assets/location.svg",
+        height: 60,
+      ),
+      onSelectPlace: <callback function when select POI>,
+      onSearch: <callback function when search keyword>,
+      map: <custom map widget>,
+    ),
+  );
+```
+```PlacePickerController``` can control place pin lifting up and down, also can refresh places list.
+```iconWidget``` can custom place pin icon.
+```onSelectPlace``` is a callback function when selecing a place from place list.
+```onSearch``` is a callback function when search POIs by keyword entered in search bar.
+```map``` is custom map widget to show map.
 
-TODO: Tell users more about the package: where to find more information, how to
-contribute to the package, how to file issues, what response they can expect
-from the package authors, and more.
+More detail usage can reference the example app.
