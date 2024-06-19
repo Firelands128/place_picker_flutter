@@ -52,7 +52,7 @@ class _MyHomePageState extends State<MyHomePage> {
     apiKey: "0e2f6cd577c7b01f2f10e8a8a4cdf153",
     secretKey: "36b5528aecd3e4aba379e1ef352820fd",
   );
-  late AMapController aMapController;
+  AMapController? aMapController;
 
   CameraPosition cameraPosition = CameraPosition(
     position: const LatLng(34.24001, 108.912078),
@@ -113,7 +113,7 @@ class _MyHomePageState extends State<MyHomePage> {
       skew: cameraPosition.skew,
       zoom: cameraPosition.zoom,
     );
-    aMapController.moveCamera(cameraPosition);
+    aMapController?.moveCamera(cameraPosition);
   }
 
   void onCameraChange(CameraPosition position) {
