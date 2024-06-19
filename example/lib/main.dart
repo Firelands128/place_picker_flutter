@@ -19,18 +19,6 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   @override
-  void initState() {
-    super.initState();
-    AMapFlutter.init(
-      apiKey: ApiKey(
-        iosKey: "a4a1394fe817c2f86a424b897b4a9af4",
-        androidKey: "d0065c21d2aedd0b234bfb7b88e5d6b2",
-      ),
-      agreePrivacy: true,
-    );
-  }
-
-  @override
   Widget build(BuildContext context) {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -53,11 +41,28 @@ class _MyHomePageState extends State<MyHomePage> {
     secretKey: "36b5528aecd3e4aba379e1ef352820fd",
   );
   AMapController? aMapController;
+  late Future mapInitFuture;
 
   CameraPosition cameraPosition = CameraPosition(
     position: const LatLng(34.24001, 108.912078),
     zoom: 14,
   );
+
+  @override
+  void initState() {
+    super.initState();
+    mapInitFuture = initMap();
+  }
+
+  Future<void> initMap() async {
+    await AMapFlutter.init(
+      apiKey: ApiKey(
+        iosKey: "a4a1394fe817c2f86a424b897b4a9af4",
+        androidKey: "d0065c21d2aedd0b234bfb7b88e5d6b2",
+      ),
+      agreePrivacy: true,
+    );
+  }
 
   void refreshNearBy() async {
     LatLng? position = cameraPosition.position;
@@ -143,55 +148,64 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        alignment: Alignment.topCenter,
-        children: [
-          PlacePicker(
-            placePickerController: placePickerController,
-            iconWidget: SvgPicture.asset(
-              "assets/location.svg",
-              height: 60,
-            ),
-            onSelectPlace: onSelectPoi,
-            onSearch: onSearch,
-            map: AMapFlutter(
-              initCameraPosition: cameraPosition,
-              logoPosition: UIControlPosition(
-                anchor: UIControlAnchor.bottomLeft,
-                offset: UIControlOffset(x: 10, y: 10),
-              ),
-              compassControlEnabled: false,
-              scaleControlEnabled: false,
-              zoomControlEnabled: false,
-              hawkEyeControlEnabled: false,
-              mapTypeControlEnabled: false,
-              geolocationControlEnabled: false,
-              showUserLocation: false,
-              onMapCreated: (controller) => aMapController = controller,
-              onMapCompleted: refreshNearBy,
-              onCameraChange: kIsWeb ? null : onCameraChange,
-              onCameraChangeFinish: kIsWeb ? null : onCameraChangeFinish,
-              onMapMove: kIsWeb ? onMapMove : null,
-              onMapMoveEnd: kIsWeb ? onMapMoveEnd : null,
-            ),
-          ),
-          Positioned(
-            top: MediaQuery.of(context).viewPadding.top + 20,
-            child: Container(
-              alignment: Alignment.center,
-              padding: const EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                color: Colors.grey[300]!.withOpacity(0.8),
-                borderRadius: const BorderRadius.all(Radius.circular(10)),
-              ),
-              child: Text(
-                "${cameraPosition.position?.latitude}, "
-                "${cameraPosition.position?.longitude}",
-                style: const TextStyle(fontSize: 16),
-              ),
-            ),
-          ),
-        ],
+      body: FutureBuilder(
+        future: mapInitFuture,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState != ConnectionState.done) {
+            return const CircularProgressIndicator();
+          } else {
+            return Stack(
+              alignment: Alignment.topCenter,
+              children: [
+                PlacePicker(
+                  placePickerController: placePickerController,
+                  iconWidget: SvgPicture.asset(
+                    "assets/location.svg",
+                    height: 60,
+                  ),
+                  onSelectPlace: onSelectPoi,
+                  onSearch: onSearch,
+                  map: AMapFlutter(
+                    initCameraPosition: cameraPosition,
+                    logoPosition: UIControlPosition(
+                      anchor: UIControlAnchor.bottomLeft,
+                      offset: UIControlOffset(x: 10, y: 10),
+                    ),
+                    compassControlEnabled: false,
+                    scaleControlEnabled: false,
+                    zoomControlEnabled: false,
+                    hawkEyeControlEnabled: false,
+                    mapTypeControlEnabled: false,
+                    geolocationControlEnabled: false,
+                    showUserLocation: false,
+                    onMapCreated: (controller) => aMapController = controller,
+                    onMapCompleted: refreshNearBy,
+                    onCameraChange: kIsWeb ? null : onCameraChange,
+                    onCameraChangeFinish: kIsWeb ? null : onCameraChangeFinish,
+                    onMapMove: kIsWeb ? onMapMove : null,
+                    onMapMoveEnd: kIsWeb ? onMapMoveEnd : null,
+                  ),
+                ),
+                Positioned(
+                  top: MediaQuery.of(context).viewPadding.top + 20,
+                  child: Container(
+                    alignment: Alignment.center,
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      color: Colors.grey[300]!.withOpacity(0.8),
+                      borderRadius: const BorderRadius.all(Radius.circular(10)),
+                    ),
+                    child: Text(
+                      "${cameraPosition.position?.latitude}, "
+                      "${cameraPosition.position?.longitude}",
+                      style: const TextStyle(fontSize: 16),
+                    ),
+                  ),
+                ),
+              ],
+            );
+          }
+        },
       ),
     );
   }
