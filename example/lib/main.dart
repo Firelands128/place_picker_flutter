@@ -153,7 +153,7 @@ class _MyHomePageState extends State<MyHomePage> {
         future: mapInitFuture,
         builder: (context, snapshot) {
           if (snapshot.connectionState != ConnectionState.done) {
-            return const CircularProgressIndicator();
+            return const Center(child: CircularProgressIndicator());
           } else {
             return Stack(
               alignment: Alignment.topCenter,
