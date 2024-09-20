@@ -37,7 +37,7 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.6
   flutter_svg: ^2.0.10
-  amap_flutter: ^0.2.2
+  amap_flutter: ^0.3.1
   amap_webservice: ^0.1.0
   latlong2: ^0.9.1
 

@@ -5,10 +5,10 @@ packages:
     dependency: "direct main"
     description:
       name: amap_flutter
-      sha256: "6d728e9639e49953f52f20208530ad7fcbca985f97fae8b53a4b5b72e5fd82e1"
+      sha256: c73e96ac2320f1b1d3d50bc2d8af00ff59853db422c8a33aa1f927d74f0a158d
       url: "https://pub.dev"
     source: hosted
-    version: "0.2.2"
+    version: "0.3.1"
   amap_webservice:
     dependency: "direct main"
     description:
