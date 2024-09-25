@@ -1,3 +1,11 @@
+## 0.1.1
+
+Upgrade "amap_flutter" version and set web api key in "main.dart" instead of "index.html".
+
+Wrap CircularProgressIndicator by Center widget.
+
+Set selectedPlace is null when place list is empty.
+
 ## 0.1.0
 
 Make sure to show AMap widget after AMap is initialized.

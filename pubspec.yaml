@@ -1,6 +1,6 @@
 name: place_picker_flutter
 description: "A Flutter package that provide location picker functionality on custom map."
-version: 0.1.0
+version: 0.1.1
 homepage: https://github.com/Firelands128/place_picker_flutter
 
 environment:
