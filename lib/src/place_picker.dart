@@ -87,7 +87,7 @@ class _PlacePickerState extends State<PlacePicker>
   void refreshPlaces(List<Place> places) {
     setState(() {
       this.places = places;
-      selectedPlace = places.first;
+      selectedPlace = places.isNotEmpty ? places.first : null;
     });
   }
 
